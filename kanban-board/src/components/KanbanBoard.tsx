@@ -40,7 +40,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
         {statuses.map((status) => (
           <div
             key={status}
-            className="flex flex-col w-1/4 bg-[#bad1e0] rounded-lg shadow-lg p-4 max-h-[40vh] overflow-y-auto"
+            className="flex flex-col w-1/4 bg-custom-blue1 rounded-lg shadow-lg p-4 max-h-[40vh] overflow-y-auto"
           >
             <div className="flex justify-between items-center mb-4">
               <h2 className="font-semibold text-gray-700">{status}</h2>
@@ -56,8 +56,8 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
                     key={member.email}
                     member={member}
                     onUpdateMemberStatus={onUpdateMemberStatus}
-                    onEdit={onEditMember}
-                    onDelete={onDeleteMember}
+                    onDeleteMember={onDeleteMember}
+                    onEditMember={onEditMember}
                   />
                 ))}
             </div>

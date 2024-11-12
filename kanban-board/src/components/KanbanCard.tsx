@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 interface Member {
   name: string;
@@ -16,8 +16,8 @@ interface Member {
 interface KanbanCardProps {
   member: Member;
   onUpdateMemberStatus: (member: Member, newStatus: Member["status"]) => void;
-  onEdit: (member: Member) => void;
-  onDelete: (email: string) => void;
+  onDeleteMember: (email: string) => void;
+  onEditMember: (member: Member) => void;
 }
 
 const statuses: Member["status"][] = [
@@ -30,8 +30,8 @@ const statuses: Member["status"][] = [
 const KanbanCard: React.FC<KanbanCardProps> = ({
   member,
   onUpdateMemberStatus,
-  onEdit,
-  onDelete,
+  onEditMember,
+  onDeleteMember,
 }) => {
   const handleStatusChange = (newStatus: Member["status"]) => {
     onUpdateMemberStatus(member, newStatus);
@@ -51,24 +51,22 @@ const KanbanCard: React.FC<KanbanCardProps> = ({
             status !== member.status && (
               <button
                 key={status}
-                className="bg-blue-500 text-white w-24 h-8 text-xs rounded-md hover:bg-blue-600 shadow-sm transition duration-200 ease-in-out flex items-center justify-center"
+                className="bg-blue-500 text-white w-30 h-12 text-xs rounded-md hover:bg-blue-600 shadow-sm transition duration-200 ease-in-out flex items-center justify-center"
                 onClick={() => handleStatusChange(status)}
               >
                 Move to {status}
               </button>
             )
         )}
-      </div>
-      <div className="mt-2 flex gap-2">
         <button
-          className="bg-green-500 text-white py-1 px-2 rounded-md hover:bg-green-600"
-          onClick={() => onEdit(member)}
+          className="bg-yellow-500 text-white w-30 h-12 text-xs rounded-md hover:bg-yellow-600 shadow-sm mt-2"
+          onClick={() => onEditMember(member)}
         >
           Edit
         </button>
         <button
-          className="bg-red-500 text-white py-1 px-2 rounded-md hover:bg-red-600"
-          onClick={() => onDelete(member.email)}
+          className="bg-red-500 text-white w-30 h-12 text-xs rounded-md hover:bg-red-600 shadow-sm mt-2"
+          onClick={() => onDeleteMember(member.email)}
         >
           Delete
         </button>
