@@ -28,10 +28,12 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-4">Kanban Board Bookings</h1>
-      <MemberForm onAddMember={handleAddMember} />
-      <KanbanBoard members={members} onUpdateMemberStatus={handleUpdateMemberStatus} />
+    <div className="bg-blue-100 min-h-screen p-8 flex flex-col items-center">
+      <h1 className="text-2xl font-bold text-gray-800 mb-6">Kanban Board Bookings</h1>
+      <div className="w-full max-w-6xl">
+        <MemberForm onAddMember={handleAddMember} />
+        <KanbanBoard members={members} onUpdateMemberStatus={handleUpdateMemberStatus} />
+      </div>
     </div>
   );
 };
