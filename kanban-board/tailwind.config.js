@@ -2,10 +2,12 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: { 
-      colors: {
-        'custom-blue': '#bad1e0',
-    },},
+    extend: {      backgroundColor: {
+      'custom-blue': '#5A67D8',
+    }
+  ,colors: {
+    'custom-blue1': '#bad1e0',
+  },},
   },
   plugins: [],
 }

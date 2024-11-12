@@ -1,4 +1,5 @@
 import React from "react";
+import { FaEdit, FaTrash } from "react-icons/fa"; // Import icons from react-icons
 
 interface Member {
   name: string;
@@ -39,11 +40,25 @@ const KanbanCard: React.FC<KanbanCardProps> = ({
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md flex flex-col relative hover:shadow-xl transition duration-200 ease-in-out">
+      {/* Edit & Delete Icons below age */}
+      <div className="mt-4 flex top-1 gap-2 absolute  right-2">
+        <button
+          onClick={() => onEditMember(member)}
+          className="text-yellow-500 hover:text-yellow-600 transition duration-200 ease-in-out"
+        >
+          <FaEdit className="text-xl" />
+        </button>
+        <button
+          onClick={() => onDeleteMember(member.email)}
+          className="text-red-500 hover:text-red-600 transition duration-200 ease-in-out"
+        >
+          <FaTrash className="text-xl" />
+        </button>
+      </div>
       {/* Age on top-right */}
-      <div className="absolute top-2 right-2 bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full shadow-md">
+      <div className="absolute top-14 right-2 bg-gray-200 text-gray-700 text-xs px-2 py-1 rounded-full shadow-md">
         {member.age} yo
       </div>
-
       {/* Member Information */}
       <h3 className="font-semibold text-gray-800 text-lg">{member.title}</h3>
       <h4 className="text-gray-800 text-xl mb-2">{member.name}</h4>
@@ -64,22 +79,6 @@ const KanbanCard: React.FC<KanbanCardProps> = ({
               </button>
             )
         )}
-      </div>
-
-      {/* Edit & Delete Buttons */}
-      <div className="mt-4 flex gap-2 justify-between">
-        <button
-          className="bg-yellow-500 text-white w-28 h-10 text-xs rounded-md hover:bg-yellow-600 shadow-sm transition duration-200 ease-in-out"
-          onClick={() => onEditMember(member)}
-        >
-          Edit
-        </button>
-        <button
-          className="bg-red-500 text-white w-28 h-10 text-xs rounded-md hover:bg-red-600 shadow-sm transition duration-200 ease-in-out"
-          onClick={() => onDeleteMember(member.email)}
-        >
-          Delete
-        </button>
       </div>
     </div>
   );
