@@ -17,6 +17,8 @@ interface Member {
 interface KanbanBoardProps {
   members: Member[];
   onUpdateMemberStatus: (member: Member, newStatus: Member["status"]) => void;
+  onEditMember: (member: Member) => void;
+  onDeleteMember: (email: string) => void;
 }
 
 const statuses: Member["status"][] = [
@@ -29,6 +31,8 @@ const statuses: Member["status"][] = [
 const KanbanBoard: React.FC<KanbanBoardProps> = ({
   members,
   onUpdateMemberStatus,
+  onEditMember,
+  onDeleteMember,
 }) => {
   return (
     <div className="mt-6 overflow-x-auto max-h-[80vh]">
@@ -36,7 +40,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
         {statuses.map((status) => (
           <div
             key={status}
-            className="flex flex-col w-1/4 bg-custom-blue rounded-lg shadow-lg p-4 max-h-[40vh] overflow-y-auto"
+            className="flex flex-col w-1/4 bg-[#bad1e0] rounded-lg shadow-lg p-4 max-h-[40vh] overflow-y-auto"
           >
             <div className="flex justify-between items-center mb-4">
               <h2 className="font-semibold text-gray-700">{status}</h2>
@@ -52,6 +56,8 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
                     key={member.email}
                     member={member}
                     onUpdateMemberStatus={onUpdateMemberStatus}
+                    onEdit={onEditMember}
+                    onDelete={onDeleteMember}
                   />
                 ))}
             </div>
