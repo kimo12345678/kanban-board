@@ -36,7 +36,7 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({
         {statuses.map((status) => (
           <div
             key={status}
-            className="flex flex-col w-1/4 bg-blue-200 rounded-lg shadow-lg p-4"
+            className="flex flex-col w-1/4 bg-blue-100 rounded-lg shadow-lg p-4"
             style={{ maxHeight: "80vh", overflowY: "auto" }} // Make each column scrollable
           >
             <div className="flex justify-between items-center mb-4">
