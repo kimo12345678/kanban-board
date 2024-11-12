@@ -1,9 +1,4 @@
-// src/components/MemberForm.tsx
-import React, { useState } from 'react';
-
-interface MemberFormProps {
-  onAddMember: (member: Member) => void;
-}
+import React, { useState, useEffect } from "react";
 
 interface Member {
   name: string;
@@ -11,77 +6,121 @@ interface Member {
   age: number;
   email: string;
   mobileNumber: string;
+  status:
+    | "Unclaimed"
+    | "First Contact"
+    | "Preparing Work Offer"
+    | "Send to Therapist";
 }
 
-const MemberForm: React.FC<MemberFormProps> = ({ onAddMember }) => {
-  const [formData, setFormData] = useState<Member>({
-    name: '',
-    title: '',
-    age: 0,
-    email: '',
-    mobileNumber: '',
-  });
+interface MemberFormProps {
+  onAddMember: (member: Omit<Member, "status">) => void;
+  onEditMember: (member: Member) => void;
+  editingMember: Member | null;
+  className?: string;
+}
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+const MemberForm: React.FC<MemberFormProps> = ({
+  onAddMember,
+  onEditMember,
+  editingMember,
+  className,
+}) => {
+  const [name, setName] = useState(editingMember?.name || "");
+  const [title, setTitle] = useState(editingMember?.title || "");
+  const [age, setAge] = useState(editingMember?.age || 0);
+  const [email, setEmail] = useState(editingMember?.email || "");
+  const [mobileNumber, setMobileNumber] = useState(
+    editingMember?.mobileNumber || ""
+  );
+
+  // Update form fields when `editingMember` changes
+  useEffect(() => {
+    if (editingMember) {
+      setName(editingMember.name);
+      setTitle(editingMember.title);
+      setAge(editingMember.age);
+      setEmail(editingMember.email);
+      setMobileNumber(editingMember.mobileNumber);
+    } else {
+      resetForm(); // Clear the form if there's no editing member
+    }
+  }, [editingMember]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onAddMember(formData);
-    setFormData({ name: '', title: '', age: 0, email: '', mobileNumber: '' });
+    if (name && title && age && email && mobileNumber) {
+      const memberData = { name, title, age, email, mobileNumber };
+      if (editingMember) {
+        // Update existing member
+        onEditMember({ ...memberData, status: editingMember.status });
+      } else {
+        // Add new member
+        onAddMember(memberData);
+      }
+      resetForm(); // Clear the form after submit
+    }
+  };
+
+  const resetForm = () => {
+    setName("");
+    setTitle("");
+    setAge(0);
+    setEmail("");
+    setMobileNumber("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 border rounded-lg">
-      <input
-        type="text"
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        placeholder="Name"
-        className="p-2 border rounded"
-        required
-      />
-      <input
-        type="text"
-        name="title"
-        value={formData.title}
-        onChange={handleChange}
-        placeholder="Title"
-        className="p-2 border rounded"
-        required
-      />
-      <input
-        type="number"
-        name="age"
-        value={formData.age}
-        onChange={handleChange}
-        placeholder="Age"
-        className="p-2 border rounded"
-        required
-      />
-      <input
-        type="email"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        placeholder="Email"
-        className="p-2 border rounded"
-        required
-      />
-      <input
-        type="text"
-        name="mobileNumber"
-        value={formData.mobileNumber}
-        onChange={handleChange}
-        placeholder="Mobile Number"
-        className="p-2 border rounded"
-        required
-      />
-      <button type="submit" className="p-2 bg-blue-500 text-white rounded">Add Member</button>
-    </form>
+    <div className={className}>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-6 rounded-lg shadow-md mb-0 mt-8"
+      >
+        <div className="flex flex-col gap-4">
+          <input
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="p-2 border rounded"
+          />
+          <input
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="p-2 border rounded"
+          />
+          <input
+            type="number"
+            placeholder="Age"
+            value={age}
+            onChange={(e) => setAge(Number(e.target.value))}
+            className="p-2 border rounded"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="p-2 border rounded"
+          />
+          <input
+            type="text"
+            placeholder="Mobile Number"
+            value={mobileNumber}
+            onChange={(e) => setMobileNumber(e.target.value)}
+            className="p-2 border rounded"
+          />
+          <button
+            type="submit"
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          >
+            {editingMember ? "Update Member" : "Add Member"}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
