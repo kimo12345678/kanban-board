@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer utilities {
+  .scrollbar-thumb-custom {
+    scrollbar-color: #bccfe8 azure;
+  }
+
+  .scrollbar-thumb-custom::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .scrollbar-thumb-custom::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thumb-custom::-webkit-scrollbar-thumb {
+    background-color: #bccfe8;
+    border-radius: 10px;
+  }
+
+  .scrollbar-thumb-custom::-webkit-scrollbar-thumb:hover {
+    background-color: #a2bddf;
+  }
+}

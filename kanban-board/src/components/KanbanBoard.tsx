@@ -90,7 +90,7 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({
   return (
     <div
       ref={setNodeRef}
-      className="flex flex-col w-1/4 bg-custom-blue1 rounded-lg shadow-lg p-4 max-h-[40vh] overflow-y-auto"
+      className="flex flex-col w-1/4 bg-custom-blue1 rounded-lg shadow-lg p-8 max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-custom"
     >
       <div className="flex justify-between items-center mb-4">
         <h2 className="font-semibold text-gray-700">{status}</h2>

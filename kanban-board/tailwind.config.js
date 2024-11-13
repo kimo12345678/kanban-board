@@ -7,8 +7,10 @@ export default {
     }
   ,colors: {
     'custom-blue1': '#bad1e0',
+    'custom-scroll-thumb': '#bccfe8',
+    'custom-scroll-thumb-hover': '#a2bddf',
   },},
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar')({ nocompatible: true }),],
 }
 
