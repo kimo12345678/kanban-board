@@ -1,4 +1,5 @@
 import React from "react";
+import { useDraggable } from "@dnd-kit/core";
 import { FaEdit, FaTrash } from "react-icons/fa"; // Import icons from react-icons
 
 interface Member {
@@ -34,22 +35,36 @@ const KanbanCard: React.FC<KanbanCardProps> = ({
   onDeleteMember,
   onEditMember,
 }) => {
-  const handleStatusChange = (newStatus: Member["status"]) => {
-    onUpdateMemberStatus(member, newStatus);
+  const { attributes, listeners, setNodeRef } = useDraggable({
+    id: member.email,
+  });
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent drag event from firing
+    onEditMember(member);
+  };
+
+  const handleDeleteClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent drag event from firing
+    onDeleteMember(member.email);
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md flex flex-col relative hover:shadow-xl transition duration-200 ease-in-out">
+    <div
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      className="bg-white p-6 rounded-lg shadow-md flex flex-col relative hover:shadow-xl transition duration-200 ease-in-out"
+    >
       {/* Edit & Delete Icons below age */}
-      <div className="mt-4 flex top-1 gap-2 absolute  right-2">
+      <div className="mt-4 flex top-1 gap-2 absolute right-2 pointer-events-auto">
         <button
-          onClick={() => onEditMember(member)}
+          onClick={handleEditClick}
           className="text-yellow-500 hover:text-yellow-600 transition duration-200 ease-in-out"
         >
           <FaEdit className="text-xl" />
         </button>
         <button
-          onClick={() => onDeleteMember(member.email)}
+          onClick={handleDeleteClick}
           className="text-red-500 hover:text-red-600 transition duration-200 ease-in-out"
         >
           <FaTrash className="text-xl" />
@@ -64,22 +79,6 @@ const KanbanCard: React.FC<KanbanCardProps> = ({
       <h4 className="text-gray-800 text-xl mb-2">{member.name}</h4>
       <p className="text-gray-600 text-sm">{member.email}</p>
       <p className="text-gray-600 text-sm">{member.mobileNumber}</p>
-
-      {/* Status Change Buttons */}
-      <div className="mt-4 flex gap-2 flex-wrap">
-        {statuses.map(
-          (status) =>
-            status !== member.status && (
-              <button
-                key={status}
-                className="bg-blue-500 text-white w-28 h-10 text-xs rounded-md hover:bg-blue-600 shadow-sm transition duration-200 ease-in-out flex items-center justify-center"
-                onClick={() => handleStatusChange(status)}
-              >
-                Move to {status}
-              </button>
-            )
-        )}
-      </div>
     </div>
   );
 };
